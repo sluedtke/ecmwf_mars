@@ -69,7 +69,8 @@ class mars_request(object):
                      date_list]
         self.date_list = date_list
         # get only the years and create list
-        self.year_list = list(range(start.year, end.year + 1))
+        year_list = list(range(start.year, end.year + 1))
+        self.year_list = list(map(str, year_list))
         return(self)
 
     def __init__(self, mars_file):
