@@ -1,2 +1,6 @@
-/ecmwf_mars/__init__.pyc
-/ecmwf_mars/mars.pyc
+tests/__pycache__/
+tests/.cache/
+.cache/
+*.swp
+*.pyc
+
