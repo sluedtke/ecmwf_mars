@@ -145,3 +145,25 @@ class mars_request(object):
         # ------------------------------------------------------
         self.request['target'] = file_name
         return(self)
+
+    # -----------------------------------------------------------
+    def fetch_data(self):
+        """
+        Calling this method, will iterate over the 'para_list' slot and the
+        'year_list' slot, both created at the very moment the object is
+        initiated and download the data.
+
+        :returns:  nothing yet
+
+        """
+        # init the server object
+        server = ECMWFDataServer()
+
+        # iterate of the parameter list
+        for para in self.para_list:
+            # iterate of the list of years
+            for year in self.year_list:
+                # update the dictionary
+                self.update_request(year, para)
+                # query the ECMWF api
+                server.retrieve(self.request)
