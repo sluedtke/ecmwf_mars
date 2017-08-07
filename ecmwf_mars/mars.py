@@ -8,20 +8,42 @@
 ######################################################################
 
 from datetime import datetime, timedelta
+import re
 
 ######################################################################
 
 
-class mars_request(object):
+def identify_days(year_string, date_list):
+    """
+    The function takes a single integer number (4 digits) and returns all
+    items of a list that have this number at the very beginning.
+
+    :year_string: a string that is equivalent to a four digit integer
+    :date_list: a list of dates or anything else, but we are working on
+                dates so anything does not make sense
+    :returns: TODO
 
     """
-    A class that holds all information required for the mars request.
+    r = re.compile("^{}-".format(year_string))
+    dates = list(filter(r.match, date_list))
+    return(dates)
+# -----------------------------------------------------------
+
+
+class mars_request(object):
     """
+    A class that holds all information required for the mars request.
+
+    """
+    # -----------------------------------------------------------
     def read_mars_file(self):
         """
         Reads the plain text file (mars request) and translates this into a
         dictionary.
+
         :returns: dictionary with the parameters of the mars request.
+
+
         """
         # create empty dictionary
         mars_dict = {}
@@ -36,25 +58,31 @@ class mars_request(object):
                 val = val.replace('"', '').replace('\n', '').replace(',', '')
                 mars_dict[key] = val
         return(mars_dict)
+    # -----------------------------------------------------------
 
     def separate_para(self):
         """
-        Take the 'param' key and separates that in a list single parameters
+        Take the 'param' key and separates that in a list single parameters.
+
         :mars_dict
         :returns: a list with 2 items:
                   the mars request dictionary with an empty parameter slot and
                   a list with the parameters.
+
         """
         self.para_list = self.request['param'].split('/')
         return(self)
+    # -----------------------------------------------------------
 
     def make_date_list(self):
         """
         Take the 'date' key and separates that in a list of strings that
         describe an entire year for the MARS interface
+
         :mars_request
         :returns: a list with 2 items: the mars request dictionary with an
             empty parameter slot and a list with the parameters.
+
         """
         # split the range into start and end
         dates = self.request['date'].split('/to/')
@@ -72,11 +100,13 @@ class mars_request(object):
         year_list = list(range(start.year, end.year + 1))
         self.year_list = list(map(str, year_list))
         return(self)
+    # -----------------------------------------------------------
 
     def __init__(self, mars_file):
         """
         A function that read the __plain__ mars request from ECMWF into a
         python dictionary.  The first line will be skipped.
+
         """
         # put the filename into a slot
         self.mars_file_name = mars_file
@@ -86,3 +116,22 @@ class mars_request(object):
         self.separate_para()
         # create the slot with dates and years
         self.make_date_list()
+    # -----------------------------------------------------------
+
+    def update_request(self, year, para):
+        """
+        Updates the mars request slot with a subset of the required dates (for
+        one year) and a single parameter.
+
+        :year: the year we want to use as a filter
+        :para: the parameter we want to use for the request
+        :returns: an update of the mars request slot
+
+        """
+        # select the dates for the given year join them to one string with '/'
+        dates = '/'.join(identify_days(year, self.date_list))
+        # update the request slot
+        self.request['date'] = dates
+        self.request['param'] = para
+        return(self)
+    # -----------------------------------------------------------

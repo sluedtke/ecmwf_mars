@@ -8,6 +8,7 @@
 ######################################################################
 
 from ecmwf_mars import mars
+import re
 import pytest
 
 ######################################################################
@@ -124,3 +125,134 @@ def test_parse_dates_mars_example_3(example_3, mars_example_3):
     assert len(mars_example_3.date_list) == 731
     assert mars_example_3.date_list[0] == '1979-01-01'
     assert mars_example_3.date_list[-1] == '1980-12-31'
+# -----------------------------------------------------------
+
+
+def test_identify_days():
+    a = ["1990-01-01", "1990-01-02", "1991-01-01"]
+    temp = mars.identify_days('1990', a)
+    assert temp == ["1990-01-01", "1990-01-02"]
+    # --------------------------------
+    temp = mars.identify_days('1991', a)
+    assert temp == ["1991-01-01"]
+    # --------------------------------
+    temp = mars.identify_days('1992', a)
+    assert temp == []
+    # --------------------------------
+    temp = mars.identify_days('199', a)
+    assert temp == []
+    # --------------------------------
+    temp = mars.identify_days('990', a)
+    assert temp == []
+    # --------------------------------
+    temp = mars.identify_days('991', a)
+    assert temp == []
+# -----------------------------------------------------------
+
+
+def test_update_request_example_1(mars_example_1):
+    mars_example_1.update_request('1979', '168.128')
+    assert mars_example_1.request['param'] == '168.128'
+    # --------------------------------
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_1.date_list))
+    temp_2 = list(filter(r.findall, mars_example_1.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+@pytest.mark.xfail
+def test_update_request_example_1_xfail_a(mars_example_1):
+    mars_example_1.update_request('1990', '172.128')
+    assert mars_example_1.request['param'] == '168.128'
+
+
+@pytest.mark.xfail
+def test_update_request_example_1_xfail_b(mars_example_1):
+    mars_example_1.update_request('1990', '172.128')
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_1.date_list))
+    temp_2 = list(filter(r.findall, mars_example_1.request['date'].split('/')))
+    assert temp_1 == temp_2
+# -----------------------------------------------------------
+
+
+def test_update_request_example_2(mars_example_2):
+    mars_example_2.update_request('1979', '168.128')
+    assert mars_example_2.request['param'] == '168.128'
+    # --------------------------------
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_2.date_list))
+    temp_2 = list(filter(r.findall, mars_example_2.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+@pytest.mark.xfail
+def test_update_request_example_2_xfail_a(mars_example_2):
+    mars_example_2.update_request('1990', '172.128')
+    assert mars_example_2.request['param'] == '168.128'
+
+
+@pytest.mark.xfail
+def test_update_request_example_2_xfail_b(mars_example_2):
+    mars_example_2.update_request('1990', '172.128')
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_2.date_list))
+    temp_2 = list(filter(r.findall, mars_example_2.request['date'].split('/')))
+    assert temp_1 == temp_2
+# -----------------------------------------------------------
+
+
+def test_update_request_example_3_a(mars_example_3):
+    mars_example_3.update_request('1979', '168.128')
+    assert mars_example_3.request['param'] == '168.128'
+    # --------------------------------
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_3.date_list))
+    temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+def test_update_request_example_3_b(mars_example_3):
+    mars_example_3.update_request('1980', '168.128')
+    assert mars_example_3.request['param'] == '168.128'
+    # --------------------------------
+    r = re.compile("{}".format('1980'))
+    temp_1 = list(filter(r.findall, mars_example_3.date_list))
+    temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+def test_update_request_example_3_c(mars_example_3):
+    mars_example_3.update_request('1979', '63.162')
+    assert mars_example_3.request['param'] == '63.162'
+    # --------------------------------
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_3.date_list))
+    temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+def test_update_request_example_3_d(mars_example_3):
+    mars_example_3.update_request('1980', '63.162')
+    assert mars_example_3.request['param'] == '63.162'
+    # --------------------------------
+    r = re.compile("{}".format('1980'))
+    temp_1 = list(filter(r.findall, mars_example_3.date_list))
+    temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
+    assert temp_1 == temp_2
+
+
+@pytest.mark.xfail
+def test_update_request_example_3_xfail_a(mars_example_3):
+    mars_example_3.update_request('1990', '172.128')
+    assert mars_example_3.request['param'] == '168.128'
+
+
+@pytest.mark.xfail
+def test_update_request_example_3_xfail_b(mars_example_3):
+    mars_example_3.update_request('1990', '172.128')
+    r = re.compile("{}".format('1979'))
+    temp_1 = list(filter(r.findall, mars_example_3.date_list))
+    temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
+    assert temp_1 == temp_2
+# -----------------------------------------------------------
