@@ -7,6 +7,7 @@
 
 ######################################################################
 
+from ecmwfapi import ECMWFDataServer
 from datetime import datetime, timedelta
 import re
 
@@ -64,10 +65,8 @@ class mars_request(object):
         """
         Take the 'param' key and separates that in a list single parameters.
 
-        :mars_dict
-        :returns: a list with 2 items:
-                  the mars request dictionary with an empty parameter slot and
-                  a list with the parameters.
+        :mars_dict:
+        :returns:
 
         """
         self.para_list = self.request['param'].split('/')
@@ -79,7 +78,7 @@ class mars_request(object):
         Take the 'date' key and separates that in a list of strings that
         describe an entire year for the MARS interface
 
-        :mars_request
+        :mars_request:
         :returns: a list with 2 items: the mars request dictionary with an
             empty parameter slot and a list with the parameters.
 
@@ -121,7 +120,7 @@ class mars_request(object):
     def update_request(self, year, para):
         """
         Updates the mars request slot with a subset of the required dates (for
-        one year) and a single parameter.
+        one year) and a single parameter and the file name.
 
         :year: the year we want to use as a filter
         :para: the parameter we want to use for the request
@@ -133,5 +132,16 @@ class mars_request(object):
         # update the request slot
         self.request['date'] = dates
         self.request['param'] = para
+        # ------------------------------------------------------
+        #  concatenate arguments to string and fill the filename slot in the
+        #  request dictionary
+        try:
+            if self.request['format'] == 'netcdf':
+                file_name = './data_' + str(year) + '_' + str(para) + '.nc'
+            else:
+                file_name = './data_' + str(year) + '_' + str(para) + '.grib'
+        except KeyError:
+            file_name = './data_' + str(year) + '_' + str(para) + '.grib'
+        # ------------------------------------------------------
+        self.request['target'] = file_name
         return(self)
-    # -----------------------------------------------------------

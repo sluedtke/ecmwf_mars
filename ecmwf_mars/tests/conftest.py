@@ -13,7 +13,7 @@ import pytest
 ######################################################################
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def example_1():
     """
     Fixture that is the python equivalent to the example_1.txt.
@@ -36,7 +36,7 @@ def example_1():
 # -----------------------------------------------------------
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def example_2():
     """
     Fixture that is the python equivalent to the example_2.txt.
@@ -59,7 +59,7 @@ def example_2():
 # -----------------------------------------------------------
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def example_3():
     """
     Fixture that is the python equivalent to the example_3.txt.

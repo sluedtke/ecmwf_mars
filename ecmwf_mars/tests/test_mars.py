@@ -150,6 +150,7 @@ def test_identify_days():
 # -----------------------------------------------------------
 
 
+# check whether the update procedure succeeds
 def test_update_request_example_1(mars_example_1):
     mars_example_1.update_request('1979', '168.128')
     assert mars_example_1.request['param'] == '168.128'
@@ -158,14 +159,20 @@ def test_update_request_example_1(mars_example_1):
     temp_1 = list(filter(r.findall, mars_example_1.date_list))
     temp_2 = list(filter(r.findall, mars_example_1.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    assert mars_example_1.request['target'] == './data_1979_168.128.grib'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_1_xfail_a(mars_example_1):
     mars_example_1.update_request('1990', '172.128')
     assert mars_example_1.request['param'] == '168.128'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_1_xfail_b(mars_example_1):
     mars_example_1.update_request('1990', '172.128')
@@ -176,6 +183,7 @@ def test_update_request_example_1_xfail_b(mars_example_1):
 # -----------------------------------------------------------
 
 
+# check whether the update procedure succeeds
 def test_update_request_example_2(mars_example_2):
     mars_example_2.update_request('1979', '168.128')
     assert mars_example_2.request['param'] == '168.128'
@@ -184,14 +192,20 @@ def test_update_request_example_2(mars_example_2):
     temp_1 = list(filter(r.findall, mars_example_2.date_list))
     temp_2 = list(filter(r.findall, mars_example_2.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    assert mars_example_2.request['target'] == './data_1979_168.128.grib'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_2_xfail_a(mars_example_2):
     mars_example_2.update_request('1990', '172.128')
     assert mars_example_2.request['param'] == '168.128'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_2_xfail_b(mars_example_2):
     mars_example_2.update_request('1990', '172.128')
@@ -202,6 +216,7 @@ def test_update_request_example_2_xfail_b(mars_example_2):
 # -----------------------------------------------------------
 
 
+# check whether the update procedure succeeds 
 def test_update_request_example_3_a(mars_example_3):
     mars_example_3.update_request('1979', '168.128')
     assert mars_example_3.request['param'] == '168.128'
@@ -210,8 +225,11 @@ def test_update_request_example_3_a(mars_example_3):
     temp_1 = list(filter(r.findall, mars_example_3.date_list))
     temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    assert mars_example_3.request['target'] == './data_1979_168.128.grib'
 
 
+# check whether the update procedure succeeds
 def test_update_request_example_3_b(mars_example_3):
     mars_example_3.update_request('1980', '168.128')
     assert mars_example_3.request['param'] == '168.128'
@@ -220,9 +238,13 @@ def test_update_request_example_3_b(mars_example_3):
     temp_1 = list(filter(r.findall, mars_example_3.date_list))
     temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    assert mars_example_3.request['target'] == './data_1980_168.128.grib'
 
 
+# check whether the update procedure succeeds
 def test_update_request_example_3_c(mars_example_3):
+    mars_example_3.request['format'] = 'netcdf'
     mars_example_3.update_request('1979', '63.162')
     assert mars_example_3.request['param'] == '63.162'
     # --------------------------------
@@ -230,9 +252,13 @@ def test_update_request_example_3_c(mars_example_3):
     temp_1 = list(filter(r.findall, mars_example_3.date_list))
     temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    assert mars_example_3.request['target'] == './data_1979_63.162.nc'
 
 
+# check whether the update procedure succeeds
 def test_update_request_example_3_d(mars_example_3):
+    mars_example_3.request['format'] = 'netcdf'
     mars_example_3.update_request('1980', '63.162')
     assert mars_example_3.request['param'] == '63.162'
     # --------------------------------
@@ -240,14 +266,21 @@ def test_update_request_example_3_d(mars_example_3):
     temp_1 = list(filter(r.findall, mars_example_3.date_list))
     temp_2 = list(filter(r.findall, mars_example_3.request['date'].split('/')))
     assert temp_1 == temp_2
+    # check the filname for output
+    mars_example_3.request['format'] = 'netcdf'
+    assert mars_example_3.request['target'] == './data_1980_63.162.nc'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_3_xfail_a(mars_example_3):
     mars_example_3.update_request('1990', '172.128')
     assert mars_example_3.request['param'] == '168.128'
 
 
+# it should fail with a different year and parameter than in the original
+# dictionary
 @pytest.mark.xfail
 def test_update_request_example_3_xfail_b(mars_example_3):
     mars_example_3.update_request('1990', '172.128')
