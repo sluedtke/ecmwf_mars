@@ -66,3 +66,11 @@ The file looks like that and the keys can be found on the webpage
     "email" : "***********************"
 }
 ```
+
+# Installation
+
+The installation via pip works like that:
+
+```
+pip install git+ssh://git@github.com/sluedtke/ecmwf_mars.git
+```
