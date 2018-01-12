@@ -2,4 +2,6 @@ language: python
 python:
   - "2.7"
 script: 
+  - pip3 install pytest --user
+  - pip3 install datetime --user
   - make test_with_doctest
