@@ -6,9 +6,12 @@ test_no_doctest:
 	python3 -m pytest  -v --ignore=setup.py ./
 	python2 -m pytest  -v --ignore=setup.py ./
 
+test_travis:
+	python -m pytest --doctest-modules --ignore=setup.py -v ./
+
 clean:
 	find . -type d -name '__pycache__' | xargs -r rm -r
 	find . -type d -name '.cache' | xargs -r rm -r
 
-.PHONY : test_no_doctest test_with_doctest clean
+.PHONY : test_no_doctest test_with_doctest clean test_travis
 

@@ -6,6 +6,7 @@ python:
 
 install:
   - pip install pytest
+  - pip install https://software.ecmwf.int/wiki/download/attachments/56664858/ecmwf-api-client-python.tgz
 
 script: 
-  - make test_with_doctest
+  - make test_travis
