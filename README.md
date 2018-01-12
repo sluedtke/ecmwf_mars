@@ -1,5 +1,7 @@
 # ECMWF_MARS
 
+[![Build Status](https://travis-ci.org/sluedtke/ecmwf_mars.svg?branch=master)](https://travis-ci.org/sluedtke/ecmwf_mars)
+
 A python library on top of ECMWF-API to download ERA-Interim data via python. 
 
 While the ECMWF-API provides the client library to access the server,
