@@ -7,9 +7,9 @@
 
 ######################################################################
 
-from ecmwfapi import ECMWFDataServer
-from datetime import datetime, timedelta
 import re
+from datetime import datetime, timedelta
+from ecmwfapi import ECMWFDataServer
 
 ######################################################################
 
@@ -17,7 +17,7 @@ import re
 def identify_days(year_string, date_list):
     """
     The function takes a single integer number (4 digits) and returns all
-    items of a list that have this number at the very beginning.
+    itEms of a list that have this number at the very beginning.
 
     :year_string: a string that is equivalent to a four digit integer
     :date_list: a list of dates or anything else, but we are working on
@@ -25,13 +25,13 @@ def identify_days(year_string, date_list):
     :returns: TODO
 
     """
-    r = re.compile("^{}-".format(year_string))
-    dates = list(filter(r.match, date_list))
-    return(dates)
+    temp = re.compile("^{}-".format(year_string))
+    dates = list(filter(temp.match, date_list))
+    return dates
 # -----------------------------------------------------------
 
 
-class mars_request(object):
+class MarsRequest(object):
     """
     A class that holds all information required for the mars request.
 
@@ -49,16 +49,16 @@ class mars_request(object):
         # create empty dictionary
         mars_dict = {}
         # open file
-        with open(self.mars_file_name) as f:
+        with open(self.mars_file_name) as temp_file:
             # skip first line
-            next(f)
-            for line in f:
+            next(temp_file)
+            for line in temp_file:
                 # read each line as key value
                 (key, val) = line.split("=")
                 # get rid of unnecessary characters
                 val = val.replace('"', '').replace('\n', '').replace(',', '')
                 mars_dict[key] = val
-        return(mars_dict)
+        return mars_dict
     # -----------------------------------------------------------
 
     def separate_para(self):
@@ -70,7 +70,7 @@ class mars_request(object):
 
         """
         self.para_list = self.request['param'].split('/')
-        return(self)
+        return self
     # -----------------------------------------------------------
 
     def make_date_list(self):
@@ -78,7 +78,7 @@ class mars_request(object):
         Take the 'date' key and separates that in a list of strings that
         describe an entire year for the MARS interface
 
-        :mars_request:
+        :MarsRequest:
         :returns: a list with 2 items: the mars request dictionary with an
             empty parameter slot and a list with the parameters.
 
@@ -98,7 +98,7 @@ class mars_request(object):
         # get only the years and create list
         year_list = list(range(start.year, end.year + 1))
         self.year_list = list(map(str, year_list))
-        return(self)
+        return self
     # -----------------------------------------------------------
 
     def __init__(self, mars_file):
@@ -144,7 +144,7 @@ class mars_request(object):
             file_name = './data_' + str(year) + '_' + str(para) + '.grib'
         # ------------------------------------------------------
         self.request['target'] = file_name
-        return(self)
+        return self
 
     # -----------------------------------------------------------
     def fetch_data(self):
